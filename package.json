@@ -1,0 +1,12 @@
+{
+  "name": "facilities-management-system",
+  "version": "1.0.0",
+  "description": "Facilities Management System for Derivco",
+  "private": true,
+  "scripts": {
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && python src/main.py"
+  },
+  "author": "",
+  "license": "ISC"
+}
