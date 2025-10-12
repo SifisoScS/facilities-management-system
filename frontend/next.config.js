@@ -11,6 +11,7 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: ['@mui/x-charts'], // Required for MUI X Charts in Next.js
 };
 
 module.exports = nextConfig;
