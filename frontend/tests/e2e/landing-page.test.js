@@ -1,23 +1,144 @@
 describe('Landing Page', () => {
-  it('displays hero with correct background image and text, charts, card sections, and progress bar', () => {
+  it('displays hero with correct background image and text, charts, and three dashboard cards', () => {
     cy.visit('/');
-    // Verify hero text
+    // Verify hero text and background
     cy.contains('FACILITIES MANAGEMENT SYSTEM').should('be.visible');
     cy.contains('Stewardship in facility management ensures sustainable spaces, aligning resources with purpose.').should('be.visible');
     cy.contains('Sifiso Cyprian Shezi, Facilities Assistant Level 1').should('be.visible');
-    // Verify hero background image
     cy.get('section').first().should('have.css', 'background-image')
       .and('match', /url\("https:\/\/images\.unsplash\.com\/photo-1497366754035-f200968a6e72/);
-    // Verify other elements
+    // Verify charts
+    cy.contains('Today\'s Operations Overview').should('be.visible');
     cy.contains('Completion Rates by Service').should('be.visible');
     cy.contains('Performance Metrics').should('be.visible');
+    // Verify Strategic Facilities Intelligence
     cy.contains('Strategic Facilities Intelligence').should('be.visible');
-    cy.contains('Facilities Management Dashboards').should('be.visible');
-    cy.contains('Service Providers').should('be.visible');
     cy.get('.bg-white\\/10.backdrop-blur-md').should('have.length', 9);
-    cy.get('.shadow-lg.border-2').should('have.length', 9);
-    cy.get('.border-t-4').should('have.length', 5);
+    cy.contains('Strategic Management').should('be.visible');
+    cy.contains('Intelligence Metrics').should('be.visible');
+    cy.contains('Integrated Framework').should('be.visible');
+    cy.contains('Global FM Intelligence').should('be.visible');
+    cy.contains('KPI Dashboard').should('be.visible');
+    cy.contains('Procurement Intelligence').should('be.visible');
+    cy.contains('Sustainability Ledger').should('be.visible');
+    cy.contains('Stewardship Charter').should('be.visible');
+    cy.contains('Training Module').should('be.visible');
+    // Verify three dashboard cards
+    cy.contains('Facilities Management Dashboards').should('be.visible');
+    cy.get('.shadow-lg.border-2').should('have.length', 3);
+    cy.contains('Management Portal').should('be.visible');
+    cy.contains('Central management hub').should('be.visible');
+    cy.contains('FACILITIES').should('be.visible');
+    cy.contains('Comprehensive operational control and monitoring').should('be.visible');
+    cy.contains('Service Providers').should('be.visible');
+    cy.contains('Trusted Partners in Facility Excellence').should('be.visible');
+    // Verify progress bar
     cy.get('[data-testid="bprogress"]').should('be.visible');
+  });
+
+  it('navigates to FACILITIES dashboard and verifies content', () => {
+    cy.visit('/');
+    cy.get('a[href="/derivco-facilities"]').click();
+    cy.url().should('eq', 'http://localhost:3001/derivco-facilities');
+    cy.contains('FACILITIES Dashboards').should('be.visible');
+    cy.contains('Comprehensive operational control and monitoring').should('be.visible');
+    cy.get('.shadow-lg.border-2').should('have.length', 8);
+    cy.contains('Smart Insights').should('be.visible');
+    cy.contains('AI-powered analytics').should('be.visible');
+    cy.contains('Inventory System').should('be.visible');
+    cy.contains('Stock and supplies management').should('be.visible');
+    cy.contains('Equipment Tracking').should('be.visible');
+    cy.contains('Asset lifecycle monitoring').should('be.visible');
+    cy.contains('Performance KPIs').should('be.visible');
+    cy.contains('Operational metrics').should('be.visible');
+    cy.contains('Medical Services').should('be.visible');
+    cy.contains('Health and safety management').should('be.visible');
+    cy.contains('Concierge Services').should('be.visible');
+    cy.contains('Guest and tenant support').should('be.visible');
+    cy.contains('News & Training').should('be.visible');
+    cy.contains('Updates and learning resources').should('be.visible');
+    cy.contains('Sifiso Methodology').should('be.visible');
+    cy.contains('Best practices framework').should('be.visible');
+    // Verify Back to Main Dashboard link
+    cy.get('a[href="/"]').contains('Back to Main Dashboard').click();
+    cy.url().should('eq', 'http://localhost:3001/');
+  });
+
+  it('navigates to Service Providers dashboard and verifies content', () => {
+    cy.visit('/');
+    cy.get('a[href="/service-providers"]').click();
+    cy.url().should('eq', 'http://localhost:3001/service-providers');
+    cy.contains('Service Providers').should('be.visible');
+    cy.contains('Trusted Partners in Facility Excellence').should('be.visible');
+    cy.get('.shadow-xl.border-t-4').should('have.length', 5);
+    cy.contains('Leitch Landscape').should('be.visible');
+    cy.contains('Professional landscaping services').should('be.visible');
+    cy.contains('Sabeliwe Garden Services').should('be.visible');
+    cy.contains('Garden maintenance and design').should('be.visible');
+    cy.contains('CSG Foods').should('be.visible');
+    cy.contains('Catering and food services').should('be.visible');
+    cy.contains('LivClean Hygiene Services').should('be.visible');
+    cy.contains('Cleaning and sanitation').should('be.visible');
+    cy.contains('MVULA Security').should('be.visible');
+    cy.contains('Security and surveillance').should('be.visible');
+    // Verify Back to Main Dashboard link
+    cy.get('a[href="/"]').contains('Back to Main Dashboard').click();
+    cy.url().should('eq', 'http://localhost:3001/');
+  });
+
+  it('navigates to Service Providers sub-dashboards and verifies content', () => {
+    cy.visit('/service-providers');
+    const providers = [
+      {
+        route: '/service-providers/leitch-landscape',
+        title: 'Leitch Landscape Dashboard',
+        description: 'Professional landscaping services',
+        metrics: ['Contract Value: R 150 000', 'Service Rating: 4.7/5', 'Projects Completed: 12', 'On-time Delivery: 95%'],
+      },
+      {
+        route: '/service-providers/sabeliwe-garden-services',
+        title: 'Sabeliwe Garden Services Dashboard',
+        description: 'Garden maintenance and design',
+        metrics: ['Contract Value: R 120 000', 'Service Rating: 4.5/5', 'Projects Completed: 10', 'On-time Delivery: 90%'],
+      },
+      {
+        route: '/service-providers/csg-foods',
+        title: 'CSG Foods Dashboard',
+        description: 'Catering and food services',
+        metrics: ['Contract Value: R 200 000', 'Service Rating: 4.8/5', 'Projects Completed: 15', 'On-time Delivery: 97%'],
+      },
+      {
+        route: '/service-providers/livclean-hygiene-services',
+        title: 'LivClean Hygiene Services Dashboard',
+        description: 'Cleaning and sanitation',
+        metrics: ['Contract Value: R 180 000', 'Service Rating: 4.6/5', 'Projects Completed: 20', 'On-time Delivery: 93%'],
+      },
+      {
+        route: '/service-providers/mvula-security',
+        title: 'MVULA Security Dashboard',
+        description: 'Security and surveillance',
+        metrics: ['Contract Value: R 250 000', 'Service Rating: 4.9/5', 'Projects Completed: 8', 'On-time Delivery: 99%'],
+      },
+    ];
+
+    providers.forEach(provider => {
+      cy.get(`a[href="${provider.route}"]`).click();
+      cy.url().should('eq', `http://localhost:3001${provider.route}`);
+      cy.contains(provider.title).should('be.visible');
+      cy.contains(provider.description).should('be.visible');
+      cy.get('.shadow-xl.border-t-4').should('have.length', 2);
+      provider.metrics.forEach(metric => {
+        cy.contains(metric).should('be.visible');
+      });
+      cy.get('a[href="/service-providers"]').contains('Back to Service Providers').click();
+      cy.url().should('eq', `http://localhost:3001/service-providers`);
+      // Verify provider card link
+      cy.get(`a[href="${provider.route}"]`).contains(provider.name).should('be.visible');
+    });
+
+    // Verify Back to Main Dashboard link from Service Providers
+    cy.get('a[href="/"]').contains('Back to Main Dashboard').click();
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Global FM Intelligence dashboard and sub-pages', () => {
@@ -37,7 +158,7 @@ describe('Landing Page', () => {
     cy.contains('Global FM Intelligence: Innovation Tracker').should('be.visible');
     cy.get('a[href="/strategic-intelligence/global-fm-intelligence"]').click();
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Sustainability Ledger dashboard', () => {
@@ -50,7 +171,7 @@ describe('Landing Page', () => {
     cy.get('.bg-white.shadow-lg').should('have.length.at.least', 8);
     cy.get('.border-l-4').should('have.length', 6);
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to KPI Dashboard and verifies metrics', () => {
@@ -85,7 +206,7 @@ describe('Landing Page', () => {
     cy.get('.bg-white.shadow-lg').should('have.length', 6);
     cy.get('.border-l-4').should('have.length', 6);
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Procurement Intelligence dashboard and verifies metrics', () => {
@@ -130,7 +251,7 @@ describe('Landing Page', () => {
     cy.get('.border-l-4').should('have.length', 10);
     cy.get('.cursor-pointer').click({ multiple: true, force: true });
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Stewardship Charter dashboard and verifies content', () => {
@@ -174,7 +295,7 @@ describe('Landing Page', () => {
     cy.get('.bg-white.shadow-lg').should('have.length', 17);
     cy.get('.border-l-4').should('have.length', 17);
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Training Module dashboard and verifies content', () => {
@@ -228,7 +349,7 @@ describe('Landing Page', () => {
     cy.get('.bg-white.shadow-lg').should('have.length', 12);
     cy.get('.border-l-4').should('have.length', 12);
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Strategic Management dashboard and verifies content', () => {
@@ -260,7 +381,7 @@ describe('Landing Page', () => {
     cy.get('.border-l-4').should('have.length', 7);
     cy.contains('Try Query').click();
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Intelligence Metrics dashboard and verifies content', () => {
@@ -292,7 +413,7 @@ describe('Landing Page', () => {
     cy.get('.border-l-4').should('have.length', 7);
     cy.contains('Try Chatbot').click();
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
   it('navigates to Integrated Intelligence Framework dashboard and verifies content', () => {
@@ -324,13 +445,20 @@ describe('Landing Page', () => {
     cy.get('.border-l-4').should('have.length', 7);
     cy.contains('Generate Report').click();
     cy.get('a[href="/"]').click();
-    cy.url().should('eq', 'http://localhost:3000/');
+    cy.url().should('eq', 'http://localhost:3001/');
   });
 
-  it('navigates to Facilities Management Dashboards', () => {
+  it('navigates to Management Portal dashboard', () => {
     cy.visit('/');
+    cy.get('a[href="/derivco-facilities/administration-portal"]').click();
+    cy.contains('Administration Portal Dashboard').should('be.visible');
+    cy.get('a[href="/"]').click();
+    cy.url().should('eq', 'http://localhost:3001/');
+  });
+
+  it('navigates to FACILITIES sub-dashboards', () => {
+    cy.visit('/derivco-facilities');
     const routes = [
-      '/derivco-facilities/administration-portal',
       '/derivco-facilities/smart-insights',
       '/derivco-facilities/inventory-system',
       '/derivco-facilities/equipment-tracking',
@@ -344,24 +472,8 @@ describe('Landing Page', () => {
       cy.get(`a[href="${route}"]`).click();
       cy.contains(`${route.split('/').pop().replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} Dashboard`).should('be.visible');
       cy.get('a[href="/"]').click();
-      cy.url().should('eq', 'http://localhost:3000/');
-    });
-  });
-
-  it('navigates to Service Providers dashboards', () => {
-    cy.visit('/');
-    const routes = [
-      '/service-providers/leitch-landscape',
-      '/service-providers/sabeliwe-garden-services',
-      '/service-providers/csg-foods',
-      '/service-providers/livclean-hygiene-services',
-      '/service-providers/mvula-security',
-    ];
-    routes.forEach(route => {
-      cy.get(`a[href="${route}"]`).click();
-      cy.contains(`${route.split('/').pop().replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} Dashboard`).should('be.visible');
-      cy.get('a[href="/"]').click();
-      cy.url().should('eq', 'http://localhost:3000/');
+      cy.url().should('eq', 'http://localhost:3001/');
+      cy.get('a[href="/derivco-facilities"]').click();
     });
   });
 });
